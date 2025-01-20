@@ -17,6 +17,7 @@ def talk(text):
 
 
 def take_command():
+    command = ""  # Initialize command with a default value
     try:
         with sr.Microphone() as source:
             print('listening...')
@@ -26,8 +27,8 @@ def take_command():
             if 'alexa' in command:
                 command = command.replace('alexa', '')
                 print(command)
-    except:
-        pass
+    except Exception as e:
+        print(f"Error: {e}")  # Optional: Print the error for debugging
     return command
 
 
@@ -38,6 +39,8 @@ def run_alexa():
         song = command.replace('play', '')
         talk('playing ' + song)
         pywhatkit.playonyt(song)
+    elif 'hello' in command:
+        talk('Please select one of the following features ')
     elif 'time' in command:
         time = datetime.datetime.now().strftime('%I:%M %p')
         talk('Current time is ' + time)
@@ -53,7 +56,7 @@ def run_alexa():
     elif 'joke' in command:
         talk(pyjokes.get_joke())
     else:
-        talk('Please say the command again.')
+        talk('')
 
 
 while True:
